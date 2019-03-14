@@ -7,11 +7,22 @@ def create_table_from_csv(engine):
 	print('Loading data set')
 	# Reading the csv and putting into dataframe
 	# note: change to dir. where your data set is
-	df = pd.read_csv('F:\\Datasets\\pubg-match-deaths\\deaths\\kill_match_stats_final_0.csv')
+	dfKills = pd.read_csv('F:\\Datasets\\pubg-match-deaths\\deaths\\kill_match_stats_final_0.csv')
+	dfAgg = pd.read_csv('F:\\Datasets\\pubg-match-deaths\\aggregate\\agg_match_stats_0.csv')
 	print('Data set loaded')
-	print(df.head())
+	print(dfKills.head())
+	print('-------------------')
+	print(dfAgg.head())
 
-	# df.to_sql('agg_match_stats', engine, index=True, index_label='id')
+	dfAgg.to_sql('player', engine)
+	dfKills.to_sql('death', engine)
+	print('Sql tables created')
+
+def aggregate():
+	browser = workspace.browser("match")
+	result = browser.aggregate()
+	print(result.summary["record_count"])
+	
 
 def main():
 	# Creating a local sql server for backend - this will be the store 
@@ -21,6 +32,7 @@ def main():
 	print('Engine created')
 
 	create_table_from_csv(engine)
+	aggregate()
 
 if __name__ == '__main__':
 	main()

@@ -1,0 +1,22 @@
+"cubes": [
+	{
+		"name": "match",
+		"dimensions": ["deaths", "player"],
+		"joins": [
+			{"master":"match_id", "detail":"deaths.match_id"},
+			{"master":"player_name", "detail":"player.player_name"}
+		],
+		"aggregates": [
+			{
+				"name": "record_count",
+				"function": "count"
+			}
+		]
+	}
+],
+"dimensions": [
+	{"name": "deaths", "attributes": ["killed_by", "killer_name", "killer_placement", "killer_position_x",
+	"killer_position_y", "map", "match_id", "time", "victim_name", "victim_position_x", "victim_position_y"]},
+	{"name": "player", "attributes": ["date", "game_size", "match_id", "match_mode", "party_size", 
+	"player_assists", "player_dbno", "player_dist_ride", "player_dist_walk"]}
+]
