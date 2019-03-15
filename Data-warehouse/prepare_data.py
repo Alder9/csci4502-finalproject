@@ -14,25 +14,23 @@ def create_table_from_csv(engine):
 	print('-------------------')
 	print(dfAgg.head())
 
-	dfAgg.to_sql('player', engine)
-	dfKills.to_sql('death', engine)
+	# Turn dataframes to SQL tables and insert into MySQL connection
+	# If the table exists, for the time being, replace it
+	dfAgg.to_sql('player', con=engine, if_exists='replace')
+	dfKills.to_sql('death', con=engine, if_exists='replace')
 	print('Sql tables created')
-
-def aggregate():
-	browser = workspace.browser("match")
-	result = browser.aggregate()
-	print(result.summary["record_count"])
 	
 
 def main():
-	# Creating a local sql server for backend - this will be the store 
+	# Connecting to local sql server for backend - this will be the store 
 	# for the data warehouse
 	print('Creating engine') 
-	engine = create_engine('sqlite:///data.sqlite')
+	# MySQL server on localhost:3306 with user admin
+	engine = create_engine('mysql://admin:admin123@localhost:3306/pubg')
 	print('Engine created')
 
-	create_table_from_csv(engine)
-	aggregate()
+	# create_table_from_csv(engine)
+	# aggregate()
 
 if __name__ == '__main__':
 	main()
