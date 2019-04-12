@@ -1,0 +1,31 @@
+
++-----------+-----------------+------------------+-------------------+-------------------+---------+------------------------------------------------------------------+------+-----------------+------------------+-------------------+-------------------+
+| killed_by  text      
+| killer_name     text      
+| killer_placement double    
+| killer_position_x double    
+| killer_position_y double    
+| map     text      
+| match_id      text                                                         
+| time bigint    
+| victim_name     text      
+| victim_placement double    
+| victim_position_x double    
+| victim_position_y |double    
+
++--------------------------+-----------+------------------------------------------------------------------+------------+------------+----------------+-------------+------------------+------------------+------------+--------------+-------------+---------------------+---------+----------------+
+| date   text                        
+| game_size bigint    
+| match_id        text                                                       
+| match_mode text      
+| party_size bigint    
+| player_assists bigint    
+| player_dbno bigint    
+| player_dist_ride double    
+| player_dist_walk double    
+| player_dmg bigint    
+| player_kills bigint    
+| player_name text      
+| player_survive_time double    
+| team_id bigint    
+| team_placement bigint    
