@@ -1,31 +1,36 @@
 
 +-----------+-----------------+------------------+-------------------+-------------------+---------+------------------------------------------------------------------+------+-----------------+------------------+-------------------+-------------------+
-| killed_by  text      
-| killer_name     text      
-| killer_placement double    
-| killer_position_x double    
-| killer_position_y double    
-| map     text      
-| match_id      text                                                         
-| time bigint    
-| victim_name     text      
-| victim_placement double    
-| victim_position_x double    
-| victim_position_y |double    
+0| killed_by  text      
+1| killer_name     text      
+2| killer_placement double    
+3| killer_position_x double    
+4| killer_position_y double    
+5| map     text      
+6| match_id      text                                                         
+7| time bigint    
+8| victim_name     text      
+9| victim_placement double    
+10| victim_position_x double    
+11| victim_position_y |double    
 
+('M16A4', 'laogayB', 36.0, 449000.9, 620807.8, 'ERANGEL', '2U4GBNA0YmknK6BvzTWvIA_LREw1sLyc1dTWBKSCnpbv0N-9Aqbu5ebmyTqpe6id', 131, 'wuhuangwangshui', 47.0, 445043.8, 626875.1)
+(killed_by, killer_name, killer_placement, killer_position_x, killer_position_y, map, 
+match_id, time, victim_name, victim_placement, victim_position_x, victim_position_y) 
 +--------------------------+-----------+------------------------------------------------------------------+------------+------------+----------------+-------------+------------------+------------------+------------+--------------+-------------+---------------------+---------+----------------+
-| date   text                        
-| game_size bigint    
-| match_id        text                                                       
-| match_mode text      
-| party_size bigint    
-| player_assists bigint    
-| player_dbno bigint    
-| player_dist_ride double    
-| player_dist_walk double    
-| player_dmg bigint    
-| player_kills bigint    
-| player_name text      
-| player_survive_time double    
-| team_id bigint    
-| team_placement bigint    
+0| date   text                        2017-11-26
+1| game_size bigint    
+2| match_id        text                                                       
+3| match_mode text      
+4| party_size bigint    
+5| player_assists bigint    
+6| player_dbno bigint    
+7| player_dist_ride double    
+8| player_dist_walk double    
+9| player_dmg bigint    
+10| player_kills bigint    
+11| player_name text      
+12| player_survive_time double    
+13| team_id bigint    
+14| team_placement bigint    
+
+ 
