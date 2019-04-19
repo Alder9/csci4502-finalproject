@@ -17,7 +17,7 @@
 (killed_by, killer_name, killer_placement, killer_position_x, killer_position_y, map, 
 match_id, time, victim_name, victim_placement, victim_position_x, victim_position_y) 
 +--------------------------+-----------+------------------------------------------------------------------+------------+------------+----------------+-------------+------------------+------------------+------------+--------------+-------------+---------------------+---------+----------------+
-0| date   text                        2017-11-26
+0| date   text                        2017-11-26T20:59:40+0000
 1| game_size bigint    
 2| match_id        text                                                       
 3| match_mode text      
@@ -33,4 +33,5 @@ match_id, time, victim_name, victim_placement, victim_position_x, victim_positio
 13| team_id bigint    
 14| team_placement bigint    
 
- 
+killer_key | victim_key
+ 95 (aMich) | 98 (Snarfy_Bobo)
