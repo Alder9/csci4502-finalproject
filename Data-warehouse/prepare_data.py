@@ -6,7 +6,11 @@ import mysql.connector
 import time
 from datetime import datetime
 
-
+'''
+Loads data from csv file into a mysql backend with the same schema as the
+csv files
+@param engine SQLAlchemy engine
+'''
 def load_from_csv(engine):
 	print('Loading data set')
 	# Reading the csv and putting into dataframe
@@ -30,6 +34,12 @@ def load_from_csv(engine):
 	# print('-------------------')
 	# print(dfAgg.head())
 
+'''
+Checks that the match_ids in the deaths table are the same as the match_ids
+in the aggregate tables
+@param cursor Mysql connector cursor for queries
+@return match_ids that in both tables and not in data warehouse
+'''
 def check_match_ids(cursor):
 	print("Checking match ids")
 	deaths_query = "SELECT DISTINCT match_id FROM deaths WHERE map = %s"
@@ -57,6 +67,13 @@ def check_match_ids(cursor):
 
 	return match_ids_to_insert
 
+'''
+Inserts row into the data warehouse
+@param dwcursor mysqlconnector cursor for inserts into DW
+@param dimension_dict Dictionary of the dimension that is going to be inserted
+@param table Which table to add to
+@return the Id of the row that was just inserted
+'''
 def insert_row(dwcursor, dimension_dict, table):
 	print("inserting row")
 	placeholders = ', '.join(['%s'] * len(dimension_dict))
@@ -69,6 +86,14 @@ def insert_row(dwcursor, dimension_dict, table):
 	# return the id of the recently inserted row
 	return id
 
+'''
+Selects row from data warehouse
+@param dwcursor Cursor to the data warehouse
+@param dimension_dict Dictionary of the dimension to select from
+@param table Table to select from
+@param table_key name of the key of the table selecting from
+@return the row selected
+'''
 def select_dw_row(dwcursor, dimension_dict, table, table_key):
 	print("selecting from datawarehouse")
 	conditionals = []
@@ -82,6 +107,15 @@ def select_dw_row(dwcursor, dimension_dict, table, table_key):
 
 	return row
 
+'''
+Gets a match from original mysql backend, sorts then inserts into Data warehouse
+@param match_id Id of the match to get
+@param aggregates_in_match Rows from aggregate table from the match
+@param deaths_in_match Rows from death tables from the match
+@param dbcursor Cursor for the database
+@param dwcursor Cursor for the data warehouse
+@dw Data warehouse object from mysql connector
+'''
 def sort_and_insert_match(match_id, aggregates_in_match, deaths_in_match, dbcursor, dwcursor, dw):
 	print('Sorting and inserting: {}'.format(match_id))
 	players = {}
@@ -265,6 +299,14 @@ def sort_and_insert_match(match_id, aggregates_in_match, deaths_in_match, dbcurs
 	f.write(match_id)
 	f.close()
 
+'''
+Populates the data warehouse by looping through each match_id then calling
+sort_and_insert_match
+@param dbcursor Cursor to the database
+@param dwcursor Cursor to the data warehouse
+@param match_ids Match ids that are not in DW and in both deaths and aggregate
+@dw Data warehouse mysqlconnector object
+'''
 def populate_tables(dbcursor, dwcursor, match_ids, dw):
 	# Two ways tables can be populated:
 	# Use dataframes for everything, one match at a time insert into tables
@@ -289,6 +331,10 @@ def populate_tables(dbcursor, dwcursor, match_ids, dw):
 
 	return
 
+'''
+Main function, connects to database and data warehouse, gets the cursors
+chcks match_ids then sorts and inserts
+'''
 def main():
 	# Connecting to local sql server for backend - this will be the store 
 	# for the data warehouse
