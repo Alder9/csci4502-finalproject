@@ -1,22 +1,35 @@
-"cubes": [
-	{
-		"name": "match",
-		"dimensions": ["deaths", "player"],
-		"joins": [
-			{"master":"match_id", "detail":"deaths.match_id"},
-			{"master":"player_name", "detail":"player.player_name"}
-		],
-		"aggregates": [
-			{
-				"name": "record_count",
-				"function": "count"
-			}
-		]
-	}
-],
-"dimensions": [
-	{"name": "deaths", "attributes": ["killed_by", "killer_name", "killer_placement", "killer_position_x",
-	"killer_position_y", "map", "match_id", "time", "victim_name", "victim_position_x", "victim_position_y"]},
-	{"name": "player", "attributes": ["date", "game_size", "match_id", "match_mode", "party_size", 
-	"player_assists", "player_dbno", "player_dist_ride", "player_dist_walk"]}
-]
+{
+	"cubes": [
+		{
+			"name": "death_fact",
+			"dimensions": ["killer_dimension", "victim_dimension", "match_mode_dimension", "match_id_dimension", "match_date_dimension", "time_in_game_dimension"],
+			"joins": [
+				{"master":"match_date_key", "detail":"match_date_dimension.match_date_key"},
+				{"master":"killer_key", "detail":"killer_dimension.killer_key"},
+				{"master":"victim_key", "detail":"victim_dimension.victim_key"},
+				{"master":"match_id_key", "detail":"match_id_dimension.match_id_key"},
+				{"master":"match_mode_key", "detail":"match_mode_dimension.match_mode_key"},
+				{"master":"time_in_game_key", "detail":"time_in_game_dimension.time_in_game_key"}
+			],
+			"aggregates": [
+				{
+					"name": "deaths",
+					"function": "count"
+				}
+			]
+		}
+	],
+	"dimensions": [
+		{"name": "killer_dimension", "attributes": ["killer_key", "player_name", "killer_placement", "killer_pos_x",
+		"killer_pos_y", "killer_match_kills", "killer_survive_time", "killer_team_id", "killer_team_placement", "killer_dist_ride",
+		"killer_dist_walk", "killer_match_dmg", "killer_match_assists", "killer_match_dbno", "party_size"]},
+		{"name": "victim_dimension", "attributes": ["victim_key", "player_name", "victim_placement", "victim_pos_x",
+		"victim_pos_y", "victim_match_kills", "victim_survive_time", "victim_team_id", "victim_team_placement", "victim_dist_ride",
+		"victim_dist_walk", "victim_match_dmg", "victim_match_assists", "victim_match_dbno", "party_size", "killed_by"]},
+		{"name": "match_mode_dimension", "attributes": ["match_mode_key", "match_mode"]},
+		{"name": "match_id_dimension", "attributes": ["match_id_key", "match_id"]},
+		{"name": "time_in_game_dimension", "attributes": ["time_in_game_key", "time_from_beginning"]},
+		{"name": "match_date_dimension", "attributes": ["match_date_key", "match_date", "match_day", "match_month", "match_year",
+		"weekend", "match_hour", "match_minute", "match_second"]}
+	]
+}
