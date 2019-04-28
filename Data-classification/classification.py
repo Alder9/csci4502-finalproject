@@ -1,38 +1,29 @@
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
 from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
 
-
 # Import first two csvs as training set
+matthew_path = r'C:/Users/matt-/Desktop/Data Mining/pubg-match-deaths/aggregate/'
+thomas_path = r'F:/Datasets/pubg-match-deaths/aggregate/'
 
-path = r'F:/Datasets/pubg-match-deaths/aggregate/'
+path = thomas_path
 
-# Training data will be agg_match_stats_0 to 2
-# Testing data will be agg_match_stats_3 and 4
-training_paths = [path + r'agg_match_stats_' + str(i) + '.csv' for i in range(0,2)]
-# testing_path = [path + r'agg_match_stats_' + str(i) + '.csv' for i in range(3,4)]
+# Training data will be agg_match_stats_0
+# Testing data will be agg_match_stats_3
 
+
+print("Loading dataframe")
 training_dfs = []
 testing_dfs = []
-print("Loading dataframe")
-# for i in range(0,len(training_paths)):
-#     df = pd.read_csv(training_paths[i], index_col=None, header=0)
-#     training_dfs.append(df)
 
-    # if(i < len(testing_path)):
-    #     df2 = pd.read_csv(testing_path[i], index_col=None, header=0)
-    #     testing_dfs.append(df)
 
 train_data = pd.read_csv(path + r'agg_match_stats_0.csv', index_col=None, header=0)
-# train_data = pd.concat(training_dfs, axis=0, ignore_index=True)
 test_data = pd.read_csv(path + r'agg_match_stats_3.csv', index_col=None, header=0)
-# test_data = pd.concat(testing_dfs, axis=0, ignore_index=True)
 
-print("Datasets loaded")
+print("Datasets loaded, starting cleaning")
 
-# train_data["team_placement_cleaned"]=np.where(train_data["team_placement"]>1,2,1)
-# test_data["team_placement_cleaned"]=np.where(test_data["team_placement"]>1,2,1)
+train_data["team_placement_cleaned"]=np.where(train_data["team_placement"]==1, 0, 1)
+test_data["team_placement_cleaned"]=np.where(test_data["team_placement"]==1, 0, 1)
 
 train_data=train_data[[
     "party_size",
@@ -43,7 +34,7 @@ train_data=train_data[[
     "player_dmg",
     "player_kills",
     "player_survive_time",
-    "team_placement"
+    "team_placement_cleaned"
 ]].dropna(axis=0, how='any')
 
 test_data=test_data[[
@@ -55,10 +46,10 @@ test_data=test_data[[
     "player_dmg",
     "player_kills",
     "player_survive_time",
-    "team_placement"
+    "team_placement_cleaned"
 ]].dropna(axis=0, how='any')
 
-print("Dropnas completed, starting fitting")
+print("Cleaning finished, starting fitting")
 
 gnb = GaussianNB()
 bnb = BernoulliNB()
@@ -77,34 +68,34 @@ used_features = [
 
 bnb.fit(
     train_data[used_features].values,
-    train_data["team_placement"]
+    train_data["team_placement_cleaned"]
 )
 
-print("Fitting done, starting predict")
+print("Fitting done, starting predictions")
 
 y_pred = bnb.predict(test_data[used_features])
 
 print("Number of mislabeled points out of a total {} points : {}, performance {:05.2f}%"
       .format(
           test_data.shape[0],
-          (test_data["team_placement"] != y_pred).sum(),
-          100*(1-(test_data["team_placement"] != y_pred).sum()/test_data.shape[0])
+          (test_data["team_placement_cleaned"] != y_pred).sum(),
+          100*(1-(test_data["team_placement_cleaned"] != y_pred).sum()/test_data.shape[0])
 ))
 
-mean_assists = np.mean(train_data[train_data["team_placement"]==1]["player_assists"])
-std_assists = np.std(train_data[train_data["team_placement"]==1]["player_assists"])
-mean_kills = np.mean(train_data[train_data["team_placement"]==1]["player_kills"])
-std_kills = np.std(train_data[train_data["team_placement"]==1]["player_kills"])
-mean_dbno = np.mean(train_data[train_data["team_placement"]==1]["player_dbno"])
-std_dbno = np.std(train_data[train_data["team_placement"]==1]["player_dbno"])
-mean_dist_walk = np.mean(train_data[train_data["team_placement"]==1]["player_dist_walk"])
-std_dist_walk =  np.std(train_data[train_data["team_placement"]==1]["player_dist_walk"])
-mean_dist_ride = np.mean(train_data[train_data["team_placement"]==1]["player_dist_ride"])
-std_dist_ride = np.std(train_data[train_data["team_placement"]==1]["player_dist_ride"])
-mean_dmg = np.mean(train_data[train_data["team_placement"]==1]["player_dmg"])
-std_dmg = np.std(train_data[train_data["team_placement"]==1]["player_dmg"])
-mean_survive_time = np.mean(train_data[train_data["team_placement"]==1]["player_survive_time"])
-std_survive_time = np.std(train_data[train_data["team_placement"]==1]["player_survive_time"])
+mean_assists = np.mean(train_data[train_data["team_placement_cleaned"]==0]["player_assists"])
+std_assists = np.std(train_data[train_data["team_placement_cleaned"]==0]["player_assists"])
+mean_kills = np.mean(train_data[train_data["team_placement_cleaned"]==0]["player_kills"])
+std_kills = np.std(train_data[train_data["team_placement_cleaned"]==0]["player_kills"])
+mean_dbno = np.mean(train_data[train_data["team_placement_cleaned"]==0]["player_dbno"])
+std_dbno = np.std(train_data[train_data["team_placement_cleaned"]==0]["player_dbno"])
+mean_dist_walk = np.mean(train_data[train_data["team_placement_cleaned"]==0]["player_dist_walk"])
+std_dist_walk =  np.std(train_data[train_data["team_placement_cleaned"]==0]["player_dist_walk"])
+mean_dist_ride = np.mean(train_data[train_data["team_placement_cleaned"]==0]["player_dist_ride"])
+std_dist_ride = np.std(train_data[train_data["team_placement_cleaned"]==0]["player_dist_ride"])
+mean_dmg = np.mean(train_data[train_data["team_placement_cleaned"]==0]["player_dmg"])
+std_dmg = np.std(train_data[train_data["team_placement_cleaned"]==0]["player_dmg"])
+mean_survive_time = np.mean(train_data[train_data["team_placement_cleaned"]==0]["player_survive_time"])
+std_survive_time = np.std(train_data[train_data["team_placement_cleaned"]==0]["player_survive_time"])
 
 print("Mean assists = {}".format(mean_assists))
 print("Std assists = {}".format(std_assists))
