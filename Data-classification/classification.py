@@ -75,14 +75,14 @@ used_features = [
     "player_survive_time"
 ]
 
-mnb.fit(
+bnb.fit(
     train_data[used_features].values,
     train_data["team_placement"]
 )
 
 print("Fitting done, starting predict")
 
-y_pred = mnb.predict(test_data[used_features])
+y_pred = bnb.predict(test_data[used_features])
 
 print("Number of mislabeled points out of a total {} points : {}, performance {:05.2f}%"
       .format(
@@ -90,3 +90,33 @@ print("Number of mislabeled points out of a total {} points : {}, performance {:
           (test_data["team_placement"] != y_pred).sum(),
           100*(1-(test_data["team_placement"] != y_pred).sum()/test_data.shape[0])
 ))
+
+mean_assists = np.mean(train_data[train_data["team_placement"]==1]["player_assists"])
+std_assists = np.std(train_data[train_data["team_placement"]==1]["player_assists"])
+mean_kills = np.mean(train_data[train_data["team_placement"]==1]["player_kills"])
+std_kills = np.std(train_data[train_data["team_placement"]==1]["player_kills"])
+mean_dbno = np.mean(train_data[train_data["team_placement"]==1]["player_dbno"])
+std_dbno = np.std(train_data[train_data["team_placement"]==1]["player_dbno"])
+mean_dist_walk = np.mean(train_data[train_data["team_placement"]==1]["player_dist_walk"])
+std_dist_walk =  np.std(train_data[train_data["team_placement"]==1]["player_dist_walk"])
+mean_dist_ride = np.mean(train_data[train_data["team_placement"]==1]["player_dist_ride"])
+std_dist_ride = np.std(train_data[train_data["team_placement"]==1]["player_dist_ride"])
+mean_dmg = np.mean(train_data[train_data["team_placement"]==1]["player_dmg"])
+std_dmg = np.std(train_data[train_data["team_placement"]==1]["player_dmg"])
+mean_survive_time = np.mean(train_data[train_data["team_placement"]==1]["player_survive_time"])
+std_survive_time = np.std(train_data[train_data["team_placement"]==1]["player_survive_time"])
+
+print("Mean assists = {}".format(mean_assists))
+print("Std assists = {}".format(std_assists))
+print("Mean kills = {}".format(mean_kills))
+print("Std kills = {}".format(std_kills))
+print("Mean dbno = {}".format(mean_dbno))
+print("Std dbno = {}".format(std_dbno))
+print("Mean dist_walk = {}".format(mean_dist_walk))
+print("Std dist_walk = {}".format(std_dist_walk))
+print("Mean dist_ride = {}".format(mean_dist_ride))
+print("Std dist_ride = {}".format(std_dist_ride))
+print("Mean dmg = {}".format(std_dmg))
+print("Std dmg = {}".format(std_assists))
+print("Mean survive_time = {}".format(mean_survive_time))
+print("Std survive_time = {}".format(std_survive_time))
