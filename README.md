@@ -1,7 +1,7 @@
 # PUBG Data Royale
 Final Project for CSCI 4502 - Data Mining
 
-Team Members: Thomas Alder, Federico Aragon, Matthew Davenport, Hoatian Dong
+Team Members: Thomas Alder, Federico Aragon, Matthew Davenport, Haotian Dong
 
 ## Description
 
