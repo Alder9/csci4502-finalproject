@@ -2,3 +2,4 @@ node_modules
 .ipynb_checkpoints
 .vscode
 *.mwb.bak
+.DS_Store
