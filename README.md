@@ -21,6 +21,8 @@ Team Members: Thomas Alder, Federico Aragon, Matthew Davenport, Haotian Dong
 
 
 ## Video Demonstration
+https://github.com/Alder9/csci4502-finalproject/blob/master/02_PUBGDataRoyale_Part6_Video.mp4
 
 
 ## Final Paper
+https://github.com/Alder9/csci4502-finalproject/blob/master/02_PUBGDataRoyale_Part4.pdf
